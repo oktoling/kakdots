@@ -67,8 +67,8 @@ bundle kak-tree-sitter https://github.com/hadronized/kak-tree-sitter.git %{
 }
 
 bundle kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tree-sitter-themes.git %{
-    # colorscheme tree-sitter
-    colorscheme catppuccin_macchiato
+    colorscheme tree-sitter
+    # colorscheme catppuccin_macchiato
 }
 
 # install hooks
