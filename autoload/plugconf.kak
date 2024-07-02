@@ -24,7 +24,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     define-command ee -docstring 'go to current error/warning from lsp' %{ lsp-find-error --include-warnings; lsp-find-error --previous --include-warnings }
 
     define-command lsp-restart -docstring 'restart lsp server' %{ lsp-stop; lsp-start }
-    hook global WinSetOption filetype=(c|cpp|cc|rust|javascript|typescript) %{
+    hook global WinSetOption filetype=(c|zig|rust|javascript|typescript) %{
         set-option window lsp_auto_highlight_references true
         set-option window lsp_hover_anchor false
         lsp-auto-hover-enable
@@ -53,7 +53,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
         }
     }
 
-    hook global WinSetOption filetype=(rust|javascript|typescript) %{
+    hook global WinSetOption filetype=(rust|javascript|typescript|c|cpp) %{
         hook window BufWritePre .* %{
             lsp-formatting-sync
         }
@@ -67,8 +67,8 @@ bundle kak-tree-sitter https://github.com/hadronized/kak-tree-sitter.git %{
 }
 
 bundle kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tree-sitter-themes.git %{
-    # colorscheme tree-sitter
-    colorscheme catppuccin_macchiato
+    colorscheme tree-sitter
+    # colorscheme catppuccin_macchiato
 }
 
 # install hooks
