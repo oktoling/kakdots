@@ -1,3 +1,3 @@
-add-highlighter global/ number-lines -hlcursor -relative -separator ' '
+# add-highlighter global/ number-lines -hlcursor -separator ' '
 
 set-option -add global ui_options terminal_assistant=none

@@ -2,11 +2,19 @@
 
 # fetch / load & configure bundles (plugins)
 source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
-bundle-noload kak-bundle https://github.com/jdugan6240/kak-bundle
+bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle.git
 
 bundle auto-pairs.kak https://github.com/alexherbo2/auto-pairs.kak.git %{
     enable-auto-pairs
 }
+
+bundle kak-tree-sitter https://github.com/hadronized/kak-tree-sitter.git %{
+    eval %sh{ kak-tree-sitter -dks --session $kak_session --with-highlighting }
+} 
+bundle kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tree-sitter-themes.git %{
+    colorscheme tree-sitter
+    # colorscheme catppuccin_macchiato
+} 
 
 bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     # uncomment to enable debugging
@@ -16,8 +24,8 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     # this is not necessary; the `lsp-enable-window` will take care of it
     # eval %sh{${kak_opt_lsp_cmd} --kakoune -s $kak_session}
 
-    set global lsp_diagnostic_line_error_sign '║'
-    set global lsp_diagnostic_line_warning_sign '┊'
+    set global lsp_diagnostic_line_error_sign '!'
+    set global lsp_diagnostic_line_warning_sign '?'
 
     define-command ne -docstring 'go to next error/warning from lsp' %{ lsp-find-error --include-warnings }
     define-command pe -docstring 'go to previous error/warning from lsp' %{ lsp-find-error --previous --include-warnings }
@@ -45,13 +53,6 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
     map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
-    hook global WinSetOption filetype=rust %{
-        hook window BufWritePre .* %{
-            evaluate-commands %sh{
-                test -f rustfmt.toml && printf lsp-formatting-sync
-            }
-        }
-    }
 
     hook global WinSetOption filetype=(rust|javascript|typescript|c|cpp) %{
         hook window BufWritePre .* %{
@@ -60,22 +61,13 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     }
 
     hook global KakEnd .* lsp-exit
-}
-
-bundle kak-tree-sitter https://github.com/hadronized/kak-tree-sitter.git %{
-    eval %sh{ kak-tree-sitter -dks --session $kak_session --with-highlighting }
-}
-
-bundle kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tree-sitter-themes.git %{
-    colorscheme tree-sitter
-    # colorscheme catppuccin_macchiato
-}
+} 
 
 # install hooks
 bundle-install-hook kakoune-lsp %{
-    cd ~/.config/kak/bundle/kakoune-lsp/
-    cargo install --locked --force --path .
-}
+     cd ~/.config/kak/bundle/kakoune-lsp/
+     cargo install --locked --force --path .
+ }
 
 bundle-install-hook kak-tree-sitter %{
     cd ~/.config/kak/bundle/kak-tree-sitter/
