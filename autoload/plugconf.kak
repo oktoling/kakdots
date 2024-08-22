@@ -35,7 +35,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     hook global WinSetOption filetype=(c|zig|rust|javascript|typescript) %{
         set-option window lsp_auto_highlight_references true
         set-option window lsp_hover_anchor false
-        lsp-auto-hover-enable
+        # lsp-auto-hover-enable
         echo -debug "Enabling LSP for filtetype %opt{filetype}"
         lsp-enable-window
     }
