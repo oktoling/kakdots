@@ -9,4 +9,5 @@ define-command -docstring "spawn terminal in your current directory" kgx-new-tab
 # alternate escape
 map global insert <a-.> <esc>
 map global prompt <a-.> <esc>
+map global view   <a-.> <esc>
 

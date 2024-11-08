@@ -4,10 +4,12 @@
 source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
 bundle-noload kak-bundle https://github.com/jdugan6240/kak-bundle
 
-bundle auto-pairs.kak https://github.com/alexherbo2/auto-pairs.kak.git %{
-    enable-auto-pairs
+# fzf
+bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
+    map -docstring 'run fzf' global user f ':fzf-mode<ret>v<ret> '
 }
 
+# LSP
 bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     # uncomment to enable debugging
     # eval %sh{echo ${kak_opt_lsp_cmd} >> /tmp/kak-lsp.log}
@@ -16,18 +18,19 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     # this is not necessary; the `lsp-enable-window` will take care of it
     # eval %sh{${kak_opt_lsp_cmd} --kakoune -s $kak_session}
 
-    set global lsp_diagnostic_line_error_sign '║'
-    set global lsp_diagnostic_line_warning_sign '┊'
+    set global lsp_diagnostic_line_error_sign '!'
+    set global lsp_diagnostic_line_warning_sign '?'
+    set global lsp_diagnostic_line_info_sign '>'
+    lsp-inlay-diagnostics-enable global
 
     define-command ne -docstring 'go to next error/warning from lsp' %{ lsp-find-error --include-warnings }
     define-command pe -docstring 'go to previous error/warning from lsp' %{ lsp-find-error --previous --include-warnings }
     define-command ee -docstring 'go to current error/warning from lsp' %{ lsp-find-error --include-warnings; lsp-find-error --previous --include-warnings }
 
-    define-command lsp-restart -docstring 'restart lsp server' %{ lsp-stop; lsp-start }
-    hook global WinSetOption filetype=(c|cpp|cc|rust|javascript|typescript) %{
+    hook global WinSetOption filetype=(c|java|rust|javascript|typescript|zig|haskell) %{
         set-option window lsp_auto_highlight_references true
-        set-option window lsp_hover_anchor false
-        lsp-auto-hover-enable
+        set-option window lsp_hover_anchor true
+        # lsp-auto-hover-enable
         echo -debug "Enabling LSP for filtetype %opt{filetype}"
         lsp-enable-window
     }
@@ -59,26 +62,58 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
         }
     }
 
-    hook global KakEnd .* lsp-exit
+    define-command lsp-restart -docstring 'restart lsp server' %{ lsp-stop; lsp-start }
+    # hook global KakEnd .* lsp-exit
 }
 
+# Tree sitter
 bundle kak-tree-sitter https://github.com/hadronized/kak-tree-sitter.git %{
-    eval %sh{ kak-tree-sitter -dks --session $kak_session --with-highlighting }
+    eval %sh{ kak-tree-sitter -dks --init $kak_session --with-highlighting }
 }
 
-bundle kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tree-sitter-themes.git %{
-    colorscheme tree-sitter
-    # colorscheme catppuccin_macchiato
+# tree sitter themes
+bundle-noload kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tree-sitter-themes.git
+
+# autopairs
+bundle auto-pairs.kak https://github.com/alexherbo2/auto-pairs.kak.git %{
+    set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
+    enable-auto-pairs
+}
+
+# statusline
+bundle yummy.kak https://github.com/Hjagu09/yummy.kak.git %{
+    require-module yummy_the_rigth_config
+    set global yummy_fmt_right     " $count $selection $git in $bufname$modified $client_server $mode"
+    yummy-enable
+}
+
+# terminal
+bundle popup.kak https://github.com/enricozb/popup.kak.git %{
+    evaluate-commands %sh{kak-popup init}
+    map -docstring "open shell" global user c %{:popup --title bash bash<ret>} 
 }
 
 # install hooks
+
+bundle-install-hook popup.kak %{
+    cargo install --locked --force --path .
+}
 bundle-install-hook kakoune-lsp %{
-    cd ~/.config/kak/bundle/kakoune-lsp/
     cargo install --locked --force --path .
 }
 
 bundle-install-hook kak-tree-sitter %{
-    cd ~/.config/kak/bundle/kak-tree-sitter/
     cargo install --locked --force --path ./kak-tree-sitter
     cargo install --locked --force --path ./ktsctl
+}
+
+bundle-install-hook kakoune-tree-sitter-themes %{
+  # Post-install code here...
+  mkdir -p ${kak_config}/colors
+  ln -sf "${kak_opt_bundle_path}/kakoune-tree-sitter-themes" "${kak_config}/colors/"
+}
+
+bundle-cleaner kakoune-tree-sitter-themes %{
+  # Remove the symlink
+  rm -rf "${kak_config}/colors/kakoune-tree-sitter-themes"
 }
