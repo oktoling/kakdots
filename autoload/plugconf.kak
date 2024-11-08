@@ -6,7 +6,7 @@ bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle.git
 
 # fzf
 bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
-    map -docstring 'run fzf' global user f ':fzf-mode<ret>v<ret> '
+    map -docstring 'run fzf' global user f ':fzf-mode<ret>'
 }
 
 # LSP
