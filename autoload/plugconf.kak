@@ -2,7 +2,7 @@
 
 # fetch / load & configure bundles (plugins)
 source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
-bundle-noload kak-bundle https://github.com/jdugan6240/kak-bundle
+bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle.git
 
 # fzf
 bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
@@ -48,15 +48,8 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     map global object d '<a-semicolon>lsp-diagnostic-object --include-warnings<ret>' -docstring 'LSP errors and warnings'
     map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
-    hook global WinSetOption filetype=rust %{
-        hook window BufWritePre .* %{
-            evaluate-commands %sh{
-                test -f rustfmt.toml && printf lsp-formatting-sync
-            }
-        }
-    }
 
-    hook global WinSetOption filetype=(rust|javascript|typescript) %{
+    hook global WinSetOption filetype=(rust|javascript|typescript|c|cpp) %{
         hook window BufWritePre .* %{
             lsp-formatting-sync
         }
@@ -98,6 +91,7 @@ bundle popup.kak https://github.com/enricozb/popup.kak.git %{
 bundle-install-hook popup.kak %{
     cargo install --locked --force --path .
 }
+
 bundle-install-hook kakoune-lsp %{
     cargo install --locked --force --path .
 }
