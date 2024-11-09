@@ -1,2 +1,6 @@
+# generated files
 bundle/
 /autoload/default
+
+# symlinked
+colors/kakoune-tree-sitter-themes/
