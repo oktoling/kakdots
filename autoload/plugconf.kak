@@ -11,12 +11,6 @@ bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
 
 # LSP
 bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
-    # uncomment to enable debugging
-    # eval %sh{echo ${kak_opt_lsp_cmd} >> /tmp/kak-lsp.log}
-    # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
-
-    # this is not necessary; the `lsp-enable-window` will take care of it
-    # eval %sh{${kak_opt_lsp_cmd} --kakoune -s $kak_session}
 
     set global lsp_diagnostic_line_error_sign '!'
     set global lsp_diagnostic_line_warning_sign '?'
