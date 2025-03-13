@@ -11,12 +11,6 @@ bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle.git
 
 # LSP
 bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
-    # uncomment to enable debugging
-    # eval %sh{echo ${kak_opt_lsp_cmd} >> /tmp/kak-lsp.log}
-    # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
-
-    # this is not necessary; the `lsp-enable-window` will take care of it
-    # eval %sh{${kak_opt_lsp_cmd} --kakoune -s $kak_session}
 
     set global lsp_diagnostic_line_error_sign '!'
     set global lsp_diagnostic_line_warning_sign '?'
@@ -60,8 +54,9 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
 }
 
 # Tree sitter
-bundle kak-tree-sitter https://github.com/hadronized/kak-tree-sitter.git %{
-    tree-sitter-session-begin
+bundle kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter %{
+    eval %sh{ kak-tree-sitter -dks --init $kak_session }
+    # tree-sitter-session-begin
 }
 
 # tree sitter themes
@@ -81,10 +76,10 @@ bundle yummy.kak https://github.com/Hjagu09/yummy.kak.git %{
 }
 
 # terminal
-# bundle popup.kak https://github.com/enricozb/popup.kak.git %{
-#     evaluate-commands %sh{kak-popup init}
-#     map -docstring "open shell" global user c %{:popup --title bash bash<ret>} 
-# }
+bundle popup.kak https://github.com/enricozb/popup.kak.git %{
+    evaluate-commands %sh{kak-popup init}
+    map -docstring "open shell" global user c %{:popup --title bash bash<ret>} 
+}
 
 # install hooks
 
