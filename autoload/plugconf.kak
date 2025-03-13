@@ -5,9 +5,9 @@ source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
 bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle.git
 
 # fzf
-bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
-    map -docstring 'run fzf' global user f ':fzf-mode<ret>'
-}
+# bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
+#     map -docstring 'run fzf' global user f ':fzf-mode<ret>'
+# }
 
 # LSP
 bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
@@ -55,13 +55,13 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
         }
     }
 
-    define-command lsp-restart -docstring 'restart lsp server' %{ lsp-stop; lsp-start }
-    # hook global KakEnd .* lsp-exit
+    # define-command lsp-restart -docstring 'restart lsp server' %{ lsp-stop; lsp-start }
+    hook global KakEnd .* lsp-exit
 }
 
 # Tree sitter
 bundle kak-tree-sitter https://github.com/hadronized/kak-tree-sitter.git %{
-    eval %sh{ kak-tree-sitter -dks --init $kak_session --with-highlighting }
+    tree-sitter-session-begin
 }
 
 # tree sitter themes
@@ -81,10 +81,10 @@ bundle yummy.kak https://github.com/Hjagu09/yummy.kak.git %{
 }
 
 # terminal
-bundle popup.kak https://github.com/enricozb/popup.kak.git %{
-    evaluate-commands %sh{kak-popup init}
-    map -docstring "open shell" global user c %{:popup --title bash bash<ret>} 
-}
+# bundle popup.kak https://github.com/enricozb/popup.kak.git %{
+#     evaluate-commands %sh{kak-popup init}
+#     map -docstring "open shell" global user c %{:popup --title bash bash<ret>} 
+# }
 
 # install hooks
 
