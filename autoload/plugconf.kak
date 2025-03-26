@@ -5,9 +5,9 @@ source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
 bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle.git
 
 # fzf
-# bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
-#     map -docstring 'run fzf' global user f ':fzf-mode<ret>'
-# }
+bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
+    map -docstring 'run fzf' global user f ':fzf-mode<ret>'
+}
 
 # LSP
 bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
