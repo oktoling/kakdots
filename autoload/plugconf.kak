@@ -55,7 +55,9 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
 
 # Tree sitter
 bundle kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter %{
-    eval %sh{ kak-tree-sitter -dks --init $kak_session }
+    hook global WinSetOption filetype=(c|rust|zig|typescript) %{
+        eval %sh{ kak-tree-sitter -dks --init $kak_session }
+    }
     # tree-sitter-session-begin
 }
 
@@ -66,13 +68,6 @@ bundle-noload kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tre
 bundle auto-pairs.kak https://github.com/alexherbo2/auto-pairs.kak.git %{
     set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
     enable-auto-pairs
-}
-
-# statusline
-bundle yummy.kak https://github.com/Hjagu09/yummy.kak.git %{
-    require-module yummy_the_rigth_config
-    set global yummy_fmt_right     " $count $selection $git in $bufname$modified $client_server $mode"
-    yummy-enable
 }
 
 # terminal
