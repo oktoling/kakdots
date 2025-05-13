@@ -21,14 +21,6 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     define-command pe -docstring 'go to previous error/warning from lsp' %{ lsp-find-error --previous --include-warnings }
     define-command ee -docstring 'go to current error/warning from lsp' %{ lsp-find-error --include-warnings; lsp-find-error --previous --include-warnings }
 
-    hook global WinSetOption filetype=(c|java|rust|javascript|typescript|zig|haskell) %{
-        set-option window lsp_auto_highlight_references true
-        set-option window lsp_hover_anchor true
-        # lsp-auto-hover-enable
-        echo -debug "Enabling LSP for filtetype %opt{filetype}"
-        lsp-enable-window
-    }
-
     hook global WinSetOption filetype=(rust) %{
         set window lsp_server_configuration rust.clippy_preference="on"
     }
@@ -55,10 +47,6 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
 
 # Tree sitter
 bundle kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter %{
-    hook global WinSetOption filetype=(c|rust|zig|typescript) %{
-        eval %sh{ kak-tree-sitter -dks --init $kak_session }
-    }
-    # tree-sitter-session-begin
 }
 
 # tree sitter themes
