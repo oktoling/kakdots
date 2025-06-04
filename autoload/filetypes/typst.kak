@@ -9,4 +9,5 @@ hook global WinSetOption filetype=typst %{
     echo -debug "Enabling LSP for filtetype %opt{filetype}"
     lsp-enable-window
     eval %sh{ kak-tree-sitter -dks --init $kak_session -vvvvv }
+    require-module typst-watch
 }
