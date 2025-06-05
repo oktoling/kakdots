@@ -44,3 +44,7 @@ provide-module typst-watch %{
 
     hook global KakEnd '' typst-watch-quit 
 }
+
+hook global BufSetOption filetype=typst %{
+    require-module typst-watch
+}
