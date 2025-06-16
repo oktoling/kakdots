@@ -19,6 +19,10 @@ hook global WinSetOption filetype=typst %{
     formatterMode = "typstyle"
     previewFeature = "disable"
     }
+    hook window BufWritePre .* %{
+        lsp-formatting-sync tinymist
+    }
+
     lsp-enable-window
     eval %sh{ kak-tree-sitter -dks --init $kak_session -vvvvv }
 }
