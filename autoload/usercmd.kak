@@ -17,3 +17,9 @@ define-command -docstring "spawn a new alacritty instance in your current direct
     } > /dev/null 2>&1 < /dev/null & }
 }
 
+
+define-command -docstring "(wayland): copy to system clipboard" wl-copy %{
+    nop %sh{
+        echo "$kak_selection" | wl-copy >/dev/null 2>&1 
+    }
+}

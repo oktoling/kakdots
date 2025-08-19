@@ -50,7 +50,7 @@ bundle kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter %{
 }
 
 # tree sitter themes
-bundle-noload kakoune-tree-sitter-themes https://github.com/oktoling/kakoune-tree-sitter-themes.git
+bundle-noload kakoune-tree-sitter-themes https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes
 
 # autopairs
 bundle auto-pairs.kak https://github.com/alexherbo2/auto-pairs.kak.git %{
