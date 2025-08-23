@@ -47,6 +47,9 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
 
 # Tree sitter
 bundle kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter %{
+    hook global WinSetOption filetype=(rust|c|cpp|zig|typst|markdown) %{
+        eval %sh{ kak-tree-sitter -dks --init $kak_session --with-highlighting --with-text-objects }
+    }
 }
 
 # tree sitter themes

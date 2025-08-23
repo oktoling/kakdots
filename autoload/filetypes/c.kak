@@ -7,5 +7,4 @@ hook global WinSetOption filetype=c %{
     hook window BufWritePre .* %{
         lsp-formatting-sync
     }
-    eval %sh{ kak-tree-sitter -dks --init $kak_session }
 }

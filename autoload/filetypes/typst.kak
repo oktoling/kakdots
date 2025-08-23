@@ -24,5 +24,4 @@ hook global WinSetOption filetype=typst %{
     }
 
     lsp-enable-window
-    eval %sh{ kak-tree-sitter -dks --init $kak_session -vvvvv }
 }
