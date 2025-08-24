@@ -1,17 +1,4 @@
-# NOTE: bundle names must match git repo name / directory name
-
-# fetch / load & configure bundles (plugins)
-source "%val{config}/bundle/kak-bundle/rc/kak-bundle.kak"
-bundle-noload kak-bundle https://codeberg.org/jdugan6240/kak-bundle.git
-
-# fzf
-bundle fzf.kak https://github.com/andreyorst/fzf.kak.git %{
-    map -docstring 'run fzf' global user f ':fzf-mode<ret>'
-}
-
-# LSP
 bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
-
     set global lsp_diagnostic_line_error_sign '!'
     set global lsp_diagnostic_line_warning_sign '?'
     set global lsp_diagnostic_line_info_sign '>'
@@ -45,50 +32,10 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     hook global KakEnd .* lsp-exit
 }
 
-# Tree sitter
-bundle kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter %{
-    hook global WinSetOption filetype=(rust|c|cpp|zig|typst|markdown) %{
-        eval %sh{ kak-tree-sitter -dks --init $kak_session --with-highlighting --with-text-objects }
-    }
-}
-
-# tree sitter themes
-bundle-noload kakoune-tree-sitter-themes https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes
-
-# autopairs
-bundle auto-pairs.kak https://github.com/alexherbo2/auto-pairs.kak.git %{
-    set-option global auto_pairs ( ) { } [ ] '"' '"' "'" "'"
-    enable-auto-pairs
-}
-
-# terminal
-bundle popup.kak https://github.com/enricozb/popup.kak.git %{
-    evaluate-commands %sh{kak-popup init}
-    map -docstring "open shell" global user c %{:popup --title bash bash<ret>} 
-}
-
-# install hooks
-
-bundle-install-hook popup.kak %{
-    cargo install --locked --force --path .
-}
-
 bundle-install-hook kakoune-lsp %{
     cargo install --locked --force --path .
 }
 
-bundle-install-hook kak-tree-sitter %{
-    cargo install --locked --force --path ./kak-tree-sitter
-    cargo install --locked --force --path ./ktsctl
-}
-
-bundle-install-hook kakoune-tree-sitter-themes %{
-  # Post-install code here...
-  mkdir -p ${kak_config}/colors
-  ln -sf "${kak_opt_bundle_path}/kakoune-tree-sitter-themes" "${kak_config}/colors/"
-}
-
-bundle-cleaner kakoune-tree-sitter-themes %{
-  # Remove the symlink
-  rm -rf "${kak_config}/colors/kakoune-tree-sitter-themes"
+bundle-cleaner kakoune-lsp %{
+    cargo uninstall --locked --force --path .
 }
