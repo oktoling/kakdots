@@ -3,7 +3,7 @@ bundle-customload kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter 
     hook global WinSetOption filetype=(rust|c|cpp|zig|typst|markdown) %{
         eval %sh{ kak-tree-sitter -dks --init $kak_session --with-highlighting --with-text-objects -vvvvv }
         # reload colorscheme to support highlights
-        colorscheme night-owl
+        colorscheme tree-sitter-robust
     }
 }
 
@@ -18,4 +18,4 @@ bundle-cleaner kak-tree-sitter %{
 }
 
 bundle-theme kakoune-tree-sitter-themes https://git.sr.ht/~hadronized/kakoune-tree-sitter-themes
-colorscheme night-owl
+colorscheme tree-sitter-robust
