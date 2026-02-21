@@ -1,6 +1,7 @@
 # Tree sitter
 bundle-customload kak-tree-sitter https://git.sr.ht/~hadronized/kak-tree-sitter %{
-    hook global WinSetOption filetype=(rust|c|cpp|zig|typst|markdown) %{
+    # TODO: spread this across files in filetype directory for more controlled access
+    hook global WinSetOption filetype=(rust|c|cpp|zig|typst|markdown|java) %{
         eval %sh{ kak-tree-sitter -dks --init $kak_session --with-highlighting --with-text-objects -vvvvv }
         # reload colorscheme to support highlights
         colorscheme tree-sitter-robust

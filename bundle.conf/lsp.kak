@@ -22,7 +22,7 @@ bundle kakoune-lsp https://github.com/kakoune-lsp/kakoune-lsp.git %{
     map global object D '<a-semicolon>lsp-diagnostic-object<ret>' -docstring 'LSP errors'
 
 
-    hook global WinSetOption filetype=(rust|javascript|typescript|c|cpp) %{
+    hook global WinSetOption filetype=(rust|javascript|typescript|c|cpp|zig|java) %{
         hook window BufWritePre .* %{
             lsp-formatting-sync
         }
